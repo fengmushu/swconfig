@@ -105,8 +105,14 @@ print_attr_val(const struct switch_attr *attr, const struct switch_val *val)
 				 SWLIB_PORT_FLAG_TAGGED) ? "t" : "");
 		}
 		break;
+	case SWITCH_TYPE_LINK:
+		printf("%s, duplex: %s, speed: %d",
+			 val->value.link.link ? "on":"off",
+			 val->value.link.duplex ? "full":"half",
+			 val->value.link.speed);
+		break;
 	default:
-		printf("?unknown-type?");
+		printf("?unknown-type? %d", attr->type);
 	}
 }
 

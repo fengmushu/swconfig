@@ -95,6 +95,9 @@ Usage of the switch_val struct:
 #ifndef __SWLIB_H
 #define __SWLIB_H
 
+#include <ctype.h>
+#include <stdbool.h>
+
 enum swlib_attr_group {
 	SWLIB_ATTR_GROUP_GLOBAL,
 	SWLIB_ATTR_GROUP_VLAN,
@@ -105,6 +108,23 @@ enum swlib_port_flags {
 	SWLIB_PORT_FLAG_TAGGED = (1 << 0),
 };
 
+enum switch_port_speed {
+	SWITCH_PORT_SPEED_UNKNOWN = 0,
+	SWITCH_PORT_SPEED_10 = 10,
+	SWITCH_PORT_SPEED_100 = 100,
+	SWITCH_PORT_SPEED_1000 = 1000,
+};
+
+struct switch_port_link {
+	char link;
+	char duplex;
+	char aneg;
+	char tx_flow;
+	char rx_flow;
+	enum switch_port_speed speed;
+	/* in ethtool adv_t format */
+	unsigned int eee;
+};
 
 struct switch_dev;
 struct switch_attr;
@@ -138,6 +158,7 @@ struct switch_val {
 		const char *s;
 		int i;
 		struct switch_port *ports;
+    struct switch_port_link link;
 	} value;
 };
 
